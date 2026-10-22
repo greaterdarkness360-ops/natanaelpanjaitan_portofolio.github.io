@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import type { PortfolioItem } from '../types/portfolio';
 
 const props = defineProps<{
@@ -10,6 +10,18 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'close'): void;
 }>();
+
+const previewImage = ref<string | null>(null);
+
+// Reset pratinjau otomatis jika modal utama ditutup
+watch(
+  () => props.isOpen,
+  (newVal) => {
+    if (!newVal) {
+      previewImage.value = null;
+    }
+  }
+);
 
 const allImages = computed(() => {
   if (!props.item) return [];
@@ -22,9 +34,18 @@ const allImages = computed(() => {
   }
   return list;
 });
+
+const openPreview = (img: string) => {
+  previewImage.value = img;
+};
+
+const closePreview = () => {
+  previewImage.value = null;
+};
 </script>
 
 <template>
+  <!-- Modal Utama -->
   <Transition
     enter-active-class="transition duration-300 ease-out"
     enter-from-class="opacity-0"
@@ -41,7 +62,7 @@ const allImages = computed(() => {
       <div
         class="bg-[#1A1A1A] border border-white/10 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 shadow-2xl relative my-8"
       >
-        <!-- Tombol Tutup -->
+        <!-- Tombol Tutup Modal -->
         <button
           class="absolute top-5 right-5 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 w-9 h-9 rounded-full flex items-center justify-center transition-colors"
           @click="emit('close')"
@@ -70,23 +91,38 @@ const allImages = computed(() => {
           </p>
         </div>
 
-        <!-- Galeri Gambar Proyek (Menampilkan Semua Foto) -->
+        <!-- Galeri Gambar Utuh (Tidak Terpotong) -->
         <div class="mb-8">
-          <h3 class="text-xs uppercase tracking-wider text-gray-400 font-sans mb-3">
-            Dokumentasi & Tangkapan Layar ({{ allImages.length }} Gambar)
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-xs uppercase tracking-wider text-gray-400 font-sans">
+              Dokumentasi & Tangkapan Layar ({{ allImages.length }} Gambar)
+            </h3>
+            <span class="text-[11px] text-yellow-200/70 font-sans">
+              🔍 Ketuk gambar untuk perbesar
+            </span>
+          </div>
+
+          <div
+            class="grid gap-4"
+            :class="allImages.length === 1 ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'"
+          >
             <div
               v-for="(img, idx) in allImages"
               :key="idx"
-              class="rounded-xl overflow-hidden border border-white/10 bg-[#121212] group relative aspect-video flex items-center justify-center"
+              class="rounded-xl overflow-hidden border border-white/10 bg-[#111111] cursor-pointer group relative flex items-center justify-center min-h-[220px] max-h-[380px] p-3 hover:border-yellow-200/50 transition-all duration-300"
+              @click="openPreview(img)"
             >
               <img
                 :src="img"
                 :alt="`${item.title} - Foto ${idx + 1}`"
-                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                class="w-auto h-auto max-w-full max-h-[350px] object-contain rounded-lg transition-transform duration-300 group-hover:scale-[1.02]"
                 loading="lazy"
               />
+              <div
+                class="absolute bottom-3 right-3 bg-black/75 backdrop-blur-sm text-white text-[11px] px-2.5 py-1 rounded-md border border-white/15 opacity-80 group-hover:opacity-100 transition-opacity"
+              >
+                Perbesar ⤢
+              </div>
             </div>
           </div>
         </div>
@@ -129,6 +165,38 @@ const allImages = computed(() => {
           </div>
         </div>
       </div>
+    </div>
+  </Transition>
+
+  <!-- Lightbox Overlay (Layar Penuh Saat Gambar Diketuk) -->
+  <Transition
+    enter-active-class="transition duration-200 ease-out"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    leave-active-class="transition duration-150 ease-in"
+    leave-from-class="opacity-100"
+    leave-to-class="opacity-0"
+  >
+    <div
+      v-if="previewImage"
+      class="fixed inset-0 z-[70] flex flex-col items-center justify-center p-4 bg-black/95 backdrop-blur-lg cursor-zoom-out"
+      @click="closePreview"
+    >
+      <button
+        class="absolute top-5 right-5 text-white text-lg bg-white/10 hover:bg-white/20 w-10 h-10 rounded-full flex items-center justify-center transition-colors z-10"
+        @click.stop="closePreview"
+        aria-label="Tutup pratinjau"
+      >
+        ✕
+      </button>
+      <img
+        :src="previewImage"
+        alt="Pratinjau Layar Penuh"
+        class="max-w-[95vw] max-h-[85vh] object-contain rounded-lg shadow-2xl border border-white/10"
+      />
+      <p class="text-xs text-gray-400 mt-3 font-sans">
+        Ketuk di mana saja untuk menutup
+      </p>
     </div>
   </Transition>
 </template>
