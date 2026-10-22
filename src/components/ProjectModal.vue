@@ -1,151 +1,134 @@
-<template>
-  <Teleport to="body">
-    <Transition name="modal">
-      <div
-        v-if="isOpen && item"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/80 backdrop-blur-md"
-        @click.self="close"
-      >
-        <div class="relative w-full max-w-3xl bg-[#1A1A1A] border border-white/10 rounded-2xl shadow-2xl p-6 sm:p-8 space-y-6 text-left my-8 overflow-hidden">
-          <!-- Close Button -->
-          <button
-            @click="close"
-            class="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 rounded-full bg-[#121212] border border-white/10 text-[#94A3B8] hover:text-white hover:border-[#38BDF8] transition-all flex items-center justify-center"
-            aria-label="Close modal"
-          >
-            ✕
-          </button>
-
-          <!-- Category Badge & Highlight -->
-          <div class="flex flex-wrap items-center gap-3 pr-10">
-            <span
-              class="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border"
-              :class="item.category === 'TECH'
-                ? 'bg-[#38BDF8]/10 text-[#38BDF8] border-[#38BDF8]/30'
-                : 'bg-[#FEF08A]/10 text-[#FEF08A] border-[#FEF08A]/30'"
-            >
-              {{ item.category === 'TECH' ? 'Rekayasa Perangkat Lunak' : 'Relasi Manusia & Bisnis' }}
-            </span>
-            <span v-if="item.highlightMetric" class="text-xs text-[#86EFAC] font-medium border border-[#86EFAC]/20 bg-[#86EFAC]/10 px-3 py-1 rounded-full">
-              {{ item.highlightMetric }}
-            </span>
-          </div>
-
-          <!-- Title & Subtitle -->
-          <div>
-            <h3 class="text-2xl sm:text-3xl font-serif font-semibold text-[#F8FAFC]">
-              {{ item.title }}
-            </h3>
-            <p class="text-sm sm:text-base text-[#94A3B8] mt-1 italic">
-              {{ item.subtitle }}
-            </p>
-          </div>
-
-          <!-- Visual Cover Frame in Modal -->
-          <div class="w-full h-48 sm:h-64 rounded-xl border border-white/10 bg-gradient-to-br from-[#262626] to-[#121212] relative overflow-hidden flex items-center justify-center">
-            <img
-              v-if="!modalImgFailed"
-              :src="item.imagePlaceholder"
-              :alt="item.title"
-              class="w-full h-full object-cover"
-              @error="modalImgFailed = true"
-            />
-            <div v-if="modalImgFailed" class="text-center p-6">
-              <span class="font-serif text-3xl font-bold text-[#38BDF8] block mb-2">{{ item.title }}</span>
-              <span class="text-xs text-[#94A3B8] uppercase tracking-widest">{{ item.subtitle }}</span>
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-transparent to-transparent opacity-60"></div>
-          </div>
-
-          <!-- Structured Sections -->
-          <div class="space-y-6 pt-2">
-            <!-- 1. Konteks Sosiologis & Masalah -->
-            <div class="p-4 rounded-xl bg-[#121212] border border-white/5 space-y-2">
-              <h4 class="text-xs font-semibold text-[#38BDF8] uppercase tracking-wider flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#38BDF8]"></span>
-                Konteks Sosiologis & Masalah
-              </h4>
-              <p class="text-sm sm:text-base text-[#94A3B8] leading-relaxed">
-                {{ item.sociologicalContext }}
-              </p>
-            </div>
-
-            <!-- 2. Solusi & Eksekusi -->
-            <div class="p-4 rounded-xl bg-[#121212] border border-white/5 space-y-2">
-              <h4 class="text-xs font-semibold text-[#FEF08A] uppercase tracking-wider flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#FEF08A]"></span>
-                Solusi & Eksekusi
-              </h4>
-              <p class="text-sm sm:text-base text-[#94A3B8] leading-relaxed">
-                {{ item.solutionExecution }}
-              </p>
-            </div>
-
-            <!-- 3. Instrumen & Keahlian -->
-            <div class="p-4 rounded-xl bg-[#121212] border border-white/5 space-y-3">
-              <h4 class="text-xs font-semibold text-[#86EFAC] uppercase tracking-wider flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#86EFAC]"></span>
-                Instrumen & Keahlian
-              </h4>
-              <div class="flex flex-wrap gap-2">
-                <span
-                  v-for="skill in item.stackOrSkills"
-                  :key="skill"
-                  class="px-3 py-1 rounded-full bg-[#1A1A1A] border border-white/10 text-xs text-[#F8FAFC] font-medium"
-                >
-                  {{ skill }}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Bottom Action -->
-          <div class="pt-2 flex justify-end">
-            <button
-              @click="close"
-              class="px-6 py-2.5 rounded-full bg-[#38BDF8] text-[#121212] font-semibold text-sm hover:bg-[#FEF08A] transition-colors"
-            >
-              Tutup
-            </button>
-          </div>
-        </div>
-      </div>
-    </Transition>
-  </Teleport>
-</template>
-
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed } from 'vue';
 import type { PortfolioItem } from '../types/portfolio';
 
 const props = defineProps<{
+  project: PortfolioItem | null;
   isOpen: boolean;
-  item: PortfolioItem | null;
 }>();
 
 const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
-const modalImgFailed = ref(false);
-
-watch(() => props.item, () => {
-  modalImgFailed.value = false;
+const allImages = computed(() => {
+  if (!props.project) return [];
+  const list: string[] = [];
+  if (props.project.imagePlaceholder) {
+    list.push(props.project.imagePlaceholder);
+  }
+  if (props.project.galleryImages && props.project.galleryImages.length > 0) {
+    list.push(...props.project.galleryImages);
+  }
+  return list;
 });
-
-const close = () => {
-  emit('close');
-};
 </script>
 
-<style scoped>
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.3s ease;
-}
+<template>
+  <Transition
+    enter-active-class="transition duration-300 ease-out"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    leave-active-class="transition duration-200 ease-in"
+    leave-from-class="opacity-100"
+    leave-to-class="opacity-0"
+  >
+    <div
+      v-if="isOpen && project"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto"
+      @click.self="emit('close')"
+    >
+      <div
+        class="bg-[#1A1A1A] border border-white/10 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 shadow-2xl relative my-8"
+      >
+        <!-- Tombol Tutup -->
+        <button
+          class="absolute top-5 right-5 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 w-9 h-9 rounded-full flex items-center justify-center transition-colors"
+          @click="emit('close')"
+          aria-label="Tutup modal"
+        >
+          ✕
+        </button>
 
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-}
-</style>
+        <!-- Judul & Kategori -->
+        <div class="mb-6 pr-8">
+          <span
+            class="inline-block px-3 py-1 text-xs tracking-wider uppercase rounded-full mb-3 font-medium"
+            :class="
+              project.category === 'TECH'
+                ? 'bg-sky-400/10 text-sky-400 border border-sky-400/20'
+                : 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20'
+            "
+          >
+            {{ project.category === 'TECH' ? 'Rekayasa Perangkat Lunak' : 'Relasi Manusia & Operasional' }}
+          </span>
+          <h2 class="text-2xl md:text-3xl font-serif text-white mb-1">
+            {{ project.title }}
+          </h2>
+          <p class="text-sm text-yellow-200/80 font-sans">
+            {{ project.subtitle }}
+          </p>
+        </div>
+
+        <!-- Galeri Gambar Proyek (Menampilkan Semua Foto) -->
+        <div class="mb-8">
+          <h3 class="text-xs uppercase tracking-wider text-gray-400 font-sans mb-3">
+            Dokumentasi & Tangkapan Layar ({{ allImages.length }} Gambar)
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              v-for="(img, idx) in allImages"
+              :key="idx"
+              class="rounded-xl overflow-hidden border border-white/10 bg-[#121212] group relative aspect-video flex items-center justify-center"
+            >
+              <img
+                :src="img"
+                :alt="`${project.title} - Foto ${idx + 1}`"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Detail: Konteks & Masalah -->
+        <div class="mb-6 bg-white/[0.02] border border-white/5 rounded-xl p-5">
+          <h4 class="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+            Konteks Masalah & Realitas Lapangan
+          </h4>
+          <p class="text-gray-300 text-sm leading-relaxed font-sans">
+            {{ project.sociologicalContext }}
+          </p>
+        </div>
+
+        <!-- Detail: Solusi & Eksekusi -->
+        <div class="mb-6 bg-white/[0.02] border border-white/5 rounded-xl p-5">
+          <h4 class="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-yellow-200"></span>
+            Solusi Nyata & Eksekusi
+          </h4>
+          <p class="text-gray-300 text-sm leading-relaxed font-sans">
+            {{ project.solutionExecution }}
+          </p>
+        </div>
+
+        <!-- Keahlian / Tech Stack -->
+        <div>
+          <h4 class="text-xs uppercase tracking-wider text-gray-400 font-sans mb-3">
+            Instrumen & Keahlian
+          </h4>
+          <div class="flex flex-wrap gap-2">
+            <span
+              v-for="(skill, idx) in project.stackOrSkills"
+              :key="idx"
+              class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-200"
+            >
+              {{ skill }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Transition>
+</template>
