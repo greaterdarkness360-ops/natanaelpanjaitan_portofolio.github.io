@@ -18,7 +18,7 @@
       <div class="pt-4 flex flex-wrap justify-center items-center gap-4 sm:gap-6">
         <!-- Button 1: Talk to Me (Primary CTA) -->
         <a
-          href="mailto:natanael.metio.p@gmail.com"
+          href="mailto:natanaelpanjaitan74@gmail.com"
           class="px-8 py-3.5 rounded-full bg-[#38BDF8] text-[#121212] font-semibold text-base hover:bg-[#FEF08A] transition-all duration-300 shadow-[0_0_20px_rgba(56,189,248,0.25)] hover:shadow-[0_0_30px_rgba(254,240,138,0.4)] flex items-center gap-2"
         >
           <span>Talk to Me</span>
