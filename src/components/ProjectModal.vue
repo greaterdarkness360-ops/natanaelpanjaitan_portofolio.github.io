@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import type { PortfolioItem } from '../types/portfolio';
 
 const props = defineProps<{
-  project: PortfolioItem | null;
+  item: PortfolioItem | null;
   isOpen: boolean;
 }>();
 
@@ -12,13 +12,13 @@ const emit = defineEmits<{
 }>();
 
 const allImages = computed(() => {
-  if (!props.project) return [];
+  if (!props.item) return [];
   const list: string[] = [];
-  if (props.project.imagePlaceholder) {
-    list.push(props.project.imagePlaceholder);
+  if (props.item.imagePlaceholder) {
+    list.push(props.item.imagePlaceholder);
   }
-  if (props.project.galleryImages && props.project.galleryImages.length > 0) {
-    list.push(...props.project.galleryImages);
+  if (props.item.galleryImages && props.item.galleryImages.length > 0) {
+    list.push(...props.item.galleryImages);
   }
   return list;
 });
@@ -34,7 +34,7 @@ const allImages = computed(() => {
     leave-to-class="opacity-0"
   >
     <div
-      v-if="isOpen && project"
+      v-if="isOpen && item"
       class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto"
       @click.self="emit('close')"
     >
@@ -55,18 +55,18 @@ const allImages = computed(() => {
           <span
             class="inline-block px-3 py-1 text-xs tracking-wider uppercase rounded-full mb-3 font-medium"
             :class="
-              project.category === 'TECH'
+              item.category === 'TECH'
                 ? 'bg-sky-400/10 text-sky-400 border border-sky-400/20'
                 : 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20'
             "
           >
-            {{ project.category === 'TECH' ? 'Rekayasa Perangkat Lunak' : 'Relasi Manusia & Operasional' }}
+            {{ item.category === 'TECH' ? 'Rekayasa Perangkat Lunak' : 'Relasi Manusia & Operasional' }}
           </span>
           <h2 class="text-2xl md:text-3xl font-serif text-white mb-1">
-            {{ project.title }}
+            {{ item.title }}
           </h2>
           <p class="text-sm text-yellow-200/80 font-sans">
-            {{ project.subtitle }}
+            {{ item.subtitle }}
           </p>
         </div>
 
@@ -83,7 +83,7 @@ const allImages = computed(() => {
             >
               <img
                 :src="img"
-                :alt="`${project.title} - Foto ${idx + 1}`"
+                :alt="`${item.title} - Foto ${idx + 1}`"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />
@@ -98,7 +98,7 @@ const allImages = computed(() => {
             Konteks Masalah & Realitas Lapangan
           </h4>
           <p class="text-gray-300 text-sm leading-relaxed font-sans">
-            {{ project.sociologicalContext }}
+            {{ item.sociologicalContext }}
           </p>
         </div>
 
@@ -109,7 +109,7 @@ const allImages = computed(() => {
             Solusi Nyata & Eksekusi
           </h4>
           <p class="text-gray-300 text-sm leading-relaxed font-sans">
-            {{ project.solutionExecution }}
+            {{ item.solutionExecution }}
           </p>
         </div>
 
@@ -120,7 +120,7 @@ const allImages = computed(() => {
           </h4>
           <div class="flex flex-wrap gap-2">
             <span
-              v-for="(skill, idx) in project.stackOrSkills"
+              v-for="(skill, idx) in item.stackOrSkills"
               :key="idx"
               class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-200"
             >
