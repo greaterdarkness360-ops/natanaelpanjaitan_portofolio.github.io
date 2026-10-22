@@ -7,6 +7,11 @@ export const portfolioItems: PortfolioItem[] = [
     subtitle: 'Pengelolaan Toko Daring Multikanal (Shopee dan Lazada)',
     category: 'HUMAN_OPS',
     imagePlaceholder: './assets/project-1.jpg',
+    galleryImages: [
+      './assets/project-1-1.jpg',
+      './assets/project-1-2.jpg',
+      './assets/project-1-3.jpg'
+    ],
     sociologicalContext:
       'Membeli souvenir pernikahan bukanlah belanja barang harian biasa. Pembeli biasanya adalah calon pengantin yang mudah cemas karena menyangkut hari pernikahan mereka, ketepatan waktu pengiriman barang, hasil sablon nama, serta biaya yang pas dengan anggaran. Balasan pesan yang lambat atau jawaban penjual yang kaku bisa langsung membuat calon pembeli pindah ke toko lain.',
     solutionExecution:
@@ -45,6 +50,11 @@ export const portfolioItems: PortfolioItem[] = [
     subtitle: 'Transparansi Keuangan Komunitas di Android dan Web (iPhone Ready)',
     category: 'TECH',
     imagePlaceholder: './assets/project-3.jpg',
+    galleryImages: [
+      './assets/project-3-1.jpg',
+      './assets/project-3-2.jpg',
+      './assets/project-3-3.jpg'
+    ],
     sociologicalContext:
       'Mengurus uang kas organisasi sering kali membuat pusing. Masalah nyata muncul ketika aplikasi Android selesai dibuat, ternyata bendahara utama menggunakan iPhone yang tidak mengizinkan pemasangan aplikasi dari luar toko resmi. Ditambah lagi, aplikasi pencatat uang biasa umumnya hanya bisa diakses satu orang dan rawan memicu salah paham jika ada catatan yang terhapus tanpa jejak.',
     solutionExecution:
@@ -138,6 +148,10 @@ export const portfolioItems: PortfolioItem[] = [
     subtitle: 'Pemanfaatan Smartphone Sebagai Alat Kendali Produktivitas',
     category: 'TECH',
     imagePlaceholder: './assets/project-8.jpg',
+    galleryImages: [
+      './assets/project-8-1.jpg',
+      './assets/project-8-2.jpg'
+    ],
     sociologicalContext:
       'Saat bepergian dan bekerja menggunakan tablet atau laptop di tempat sempit seperti kafe atau meja kecil, membawa banyak perangkat tambahan seperti mouse fisik sering kali merepotkan dan menghambat kecepatan kerja.',
     solutionExecution:
