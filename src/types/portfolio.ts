@@ -6,6 +6,7 @@ export interface PortfolioItem {
   subtitle: string;
   category: 'TECH' | 'HUMAN_OPS';
   imagePlaceholder: string;
+  galleryImages?: string[]; // Menampung lebih dari 1 foto tambahan
   sociologicalContext: string;
   solutionExecution: string;
   stackOrSkills: string[];
