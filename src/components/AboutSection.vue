@@ -9,6 +9,73 @@ const coreSkills = [
   'AI System Orchestration'
 ];
 
+interface ActivityCard {
+  id: string;
+  type: 'image' | 'video';
+  src: string;
+  poster?: string;
+  title: string;
+  subtitle: string;
+  previewTitle: string;
+  dotColor: string;
+  hoverBorder: string;
+  badgeText: string;
+  badgeClass: string;
+}
+
+// Disimpan di variabel agar Vite langsung membacanya dari folder public/assets/ saat runtime
+const activityCards: ActivityCard[] = [
+  {
+    id: 'riset-kualitatif',
+    type: 'image',
+    src: './assets/activity-1.jpg',
+    title: 'Riset Kualitatif',
+    subtitle: 'Wawancara Warga',
+    previewTitle: 'Riset Kualitatif: Wawancara Lapangan bersama Narasumber',
+    dotColor: 'bg-emerald-400',
+    hoverBorder: 'hover:border-emerald-400/40',
+    badgeText: 'Perbesar ⤢',
+    badgeClass: 'bg-black/75 border-white/15'
+  },
+  {
+    id: 'diskusi-kualitatif',
+    type: 'video',
+    src: './assets/field-research.mp4',
+    poster: './assets/activity-1.jpg',
+    title: 'Diskusi Kualitatif',
+    subtitle: 'Briefing Tim',
+    previewTitle: 'Diskusi Kualitatif: Briefing & Koordinasi Rekan Tim',
+    dotColor: 'bg-sky-400 animate-pulse',
+    hoverBorder: 'hover:border-sky-400/40',
+    badgeText: '▶ Putar Video',
+    badgeClass: 'bg-sky-500/80 border-white/20 backdrop-blur-sm font-medium'
+  },
+  {
+    id: 'operasional-relasi',
+    type: 'image',
+    src: './assets/activity-2.jpg',
+    title: 'Operasional & Relasi',
+    subtitle: 'Layanan B2C',
+    previewTitle: 'Operasional & Relasi Pelanggan E-Commerce',
+    dotColor: 'bg-yellow-200',
+    hoverBorder: 'hover:border-yellow-200/40',
+    badgeText: 'Perbesar ⤢',
+    badgeClass: 'bg-black/75 border-white/15'
+  },
+  {
+    id: 'eksplorasi-sistem',
+    type: 'image',
+    src: './assets/activity-3.jpg',
+    title: 'Eksplorasi Sistem',
+    subtitle: 'Otomasi & Kode',
+    previewTitle: 'Eksplorasi Sistem & Rekayasa Perangkat Lunak',
+    dotColor: 'bg-purple-400',
+    hoverBorder: 'hover:border-purple-400/40',
+    badgeText: 'Perbesar ⤢',
+    badgeClass: 'bg-black/75 border-white/15'
+  }
+];
+
 interface MediaPreview {
   type: 'image' | 'video';
   src: string;
@@ -17,8 +84,12 @@ interface MediaPreview {
 
 const activePreview = ref<MediaPreview | null>(null);
 
-const openPreview = (type: 'image' | 'video', src: string, title: string) => {
-  activePreview.value = { type, src, title };
+const openPreview = (card: ActivityCard) => {
+  activePreview.value = {
+    type: card.type,
+    src: card.src,
+    title: card.previewTitle
+  };
 };
 
 const closePreview = () => {
@@ -77,110 +148,47 @@ const closePreview = () => {
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          
-          <!-- Kartu 1: Riset Kualitatif (Wawancara Narasumber) -->
           <div
-            class="rounded-2xl overflow-hidden border border-white/10 bg-[#141414] hover:border-emerald-400/40 transition-all duration-300 flex flex-col cursor-pointer group shadow-lg"
-            @click="openPreview('image', './assets/activity-1.jpg', 'Riset Kualitatif: Wawancara Lapangan bersama Narasumber')"
+            v-for="card in activityCards"
+            :key="card.id"
+            class="rounded-2xl overflow-hidden border border-white/10 bg-[#141414] transition-all duration-300 flex flex-col cursor-pointer group shadow-lg"
+            :class="card.hoverBorder"
+            @click="openPreview(card)"
           >
             <div class="w-full h-52 bg-[#0d0d0d] flex items-center justify-center p-2 overflow-hidden relative">
               <img
-                src="./assets/activity-1.jpg"
-                alt="Wawancara Riset Kualitatif"
+                v-if="card.type === 'image'"
+                :src="card.src"
+                :alt="card.title"
                 class="w-full h-full object-contain rounded-lg transition-transform duration-500 group-hover:scale-[1.03]"
                 loading="lazy"
               />
-              <span class="absolute top-3 right-3 bg-black/75 text-white text-[10px] px-2 py-0.5 rounded border border-white/15">
-                Perbesar ⤢
-              </span>
-            </div>
-            <div class="p-3.5 bg-[#1A1A1A] border-t border-white/5 flex items-center justify-between gap-2">
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
-                <span class="text-xs font-medium text-white font-sans">Riset Kualitatif</span>
-              </div>
-              <span class="text-[11px] text-gray-400 font-sans">Wawancara Warga</span>
-            </div>
-          </div>
-
-          <!-- Kartu 2: Diskusi Kualitatif (Video Briefing Rekan Tim) -->
-          <div
-            class="rounded-2xl overflow-hidden border border-white/10 bg-[#141414] hover:border-sky-400/40 transition-all duration-300 flex flex-col cursor-pointer group shadow-lg"
-            @click="openPreview('video', './assets/field-research.mp4', 'Diskusi Kualitatif: Briefing & Koordinasi Rekan Tim')"
-          >
-            <div class="w-full h-52 bg-[#0d0d0d] flex items-center justify-center p-2 overflow-hidden relative">
               <video
-                src="./assets/field-research.mp4"
-                poster="./assets/activity-1.jpg"
+                v-else
+                :src="card.src"
+                :poster="card.poster"
                 autoplay
                 loop
                 muted
                 playsinline
                 class="w-full h-full object-contain rounded-lg transition-transform duration-500 group-hover:scale-[1.03]"
               ></video>
-              <span class="absolute top-3 right-3 bg-sky-500/80 text-white text-[10px] font-medium px-2 py-0.5 rounded border border-white/20 backdrop-blur-sm">
-                ▶ Putar Video
+              <span
+                class="absolute top-3 right-3 text-white text-[10px] px-2 py-0.5 rounded border"
+                :class="card.badgeClass"
+              >
+                {{ card.badgeText }}
               </span>
             </div>
+
             <div class="p-3.5 bg-[#1A1A1A] border-t border-white/5 flex items-center justify-between gap-2">
               <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse shrink-0"></span>
-                <span class="text-xs font-medium text-white font-sans">Diskusi Kualitatif</span>
+                <span class="w-2 h-2 rounded-full shrink-0" :class="card.dotColor"></span>
+                <span class="text-xs font-medium text-white font-sans">{{ card.title }}</span>
               </div>
-              <span class="text-[11px] text-gray-400 font-sans">Briefing Tim</span>
+              <span class="text-[11px] text-gray-400 font-sans">{{ card.subtitle }}</span>
             </div>
           </div>
-
-          <!-- Kartu 3: Operasional & Relasi Pelanggan -->
-          <div
-            class="rounded-2xl overflow-hidden border border-white/10 bg-[#141414] hover:border-yellow-200/40 transition-all duration-300 flex flex-col cursor-pointer group shadow-lg"
-            @click="openPreview('image', './assets/activity-2.jpg', 'Operasional & Relasi Pelanggan E-Commerce')"
-          >
-            <div class="w-full h-52 bg-[#0d0d0d] flex items-center justify-center p-2 overflow-hidden relative">
-              <img
-                src="./assets/activity-2.jpg"
-                alt="Operasional & Relasi Pelanggan"
-                class="w-full h-full object-contain rounded-lg transition-transform duration-500 group-hover:scale-[1.03]"
-                loading="lazy"
-              />
-              <span class="absolute top-3 right-3 bg-black/75 text-white text-[10px] px-2 py-0.5 rounded border border-white/15">
-                Perbesar ⤢
-              </span>
-            </div>
-            <div class="p-3.5 bg-[#1A1A1A] border-t border-white/5 flex items-center justify-between gap-2">
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-yellow-200 shrink-0"></span>
-                <span class="text-xs font-medium text-white font-sans">Operasional & Relasi</span>
-              </div>
-              <span class="text-[11px] text-gray-400 font-sans">Layanan B2C</span>
-            </div>
-          </div>
-
-          <!-- Kartu 4: Eksplorasi Sistem & Arsitektur -->
-          <div
-            class="rounded-2xl overflow-hidden border border-white/10 bg-[#141414] hover:border-purple-400/40 transition-all duration-300 flex flex-col cursor-pointer group shadow-lg"
-            @click="openPreview('image', './assets/activity-3.jpg', 'Eksplorasi Sistem & Rekayasa Perangkat Lunak')"
-          >
-            <div class="w-full h-52 bg-[#0d0d0d] flex items-center justify-center p-2 overflow-hidden relative">
-              <img
-                src="./assets/activity-3.jpg"
-                alt="Eksplorasi Sistem & Arsitektur"
-                class="w-full h-full object-contain rounded-lg transition-transform duration-500 group-hover:scale-[1.03]"
-                loading="lazy"
-              />
-              <span class="absolute top-3 right-3 bg-black/75 text-white text-[10px] px-2 py-0.5 rounded border border-white/15">
-                Perbesar ⤢
-              </span>
-            </div>
-            <div class="p-3.5 bg-[#1A1A1A] border-t border-white/5 flex items-center justify-between gap-2">
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>
-                <span class="text-xs font-medium text-white font-sans">Eksplorasi Sistem</span>
-              </div>
-              <span class="text-[11px] text-gray-400 font-sans">Otomasi & Kode</span>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
