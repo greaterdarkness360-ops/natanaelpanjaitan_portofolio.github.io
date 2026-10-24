@@ -13,7 +13,6 @@ interface ActivityCard {
   id: string;
   type: 'image' | 'video';
   src: string;
-  poster?: string;
   title: string;
   subtitle: string;
   previewTitle: string;
@@ -23,31 +22,29 @@ interface ActivityCard {
   badgeClass: string;
 }
 
-// Disimpan di variabel agar Vite langsung membacanya dari folder public/assets/ saat runtime
 const activityCards: ActivityCard[] = [
   {
     id: 'riset-kualitatif',
-    type: 'image',
-    src: './assets/activity-1.jpg',
+    type: 'video',
+    src: './assets/field-research.mp4',
     title: 'Riset Kualitatif',
     subtitle: 'Wawancara Warga',
-    previewTitle: 'Riset Kualitatif: Wawancara Lapangan bersama Narasumber',
-    dotColor: 'bg-emerald-400',
+    previewTitle: 'Riset Kualitatif: Observasi & Wawancara Mendalam bersama Warga',
+    dotColor: 'bg-emerald-400 animate-pulse',
     hoverBorder: 'hover:border-emerald-400/40',
-    badgeText: 'Perbesar ⤢',
-    badgeClass: 'bg-black/75 border-white/15'
+    badgeText: '▶ Perbesar Video',
+    badgeClass: 'bg-emerald-500/80 border-white/20 backdrop-blur-sm font-medium'
   },
   {
     id: 'diskusi-kualitatif',
     type: 'video',
-    src: './assets/field-research.mp4',
-    poster: './assets/activity-1.jpg',
+    src: './assets/team-discussion.mp4',
     title: 'Diskusi Kualitatif',
     subtitle: 'Briefing Tim',
-    previewTitle: 'Diskusi Kualitatif: Briefing & Koordinasi Rekan Tim',
+    previewTitle: 'Diskusi Kualitatif: Koordinasi & Briefing Tim Peneliti di Lapangan',
     dotColor: 'bg-sky-400 animate-pulse',
     hoverBorder: 'hover:border-sky-400/40',
-    badgeText: '▶ Putar Video',
+    badgeText: '▶ Perbesar Video',
     badgeClass: 'bg-sky-500/80 border-white/20 backdrop-blur-sm font-medium'
   },
   {
@@ -155,7 +152,7 @@ const closePreview = () => {
             :class="card.hoverBorder"
             @click="openPreview(card)"
           >
-            <div class="w-full h-52 bg-[#0d0d0d] flex items-center justify-center p-2 overflow-hidden relative">
+            <div class="w-full h-56 bg-[#0d0d0d] flex items-center justify-center p-2 overflow-hidden relative">
               <img
                 v-if="card.type === 'image'"
                 :src="card.src"
@@ -166,7 +163,6 @@ const closePreview = () => {
               <video
                 v-else
                 :src="card.src"
-                :poster="card.poster"
                 autoplay
                 loop
                 muted
@@ -193,7 +189,7 @@ const closePreview = () => {
       </div>
     </div>
 
-    <!-- Lightbox Preview untuk Foto & Video Aktivitas -->
+    <!-- Lightbox Preview (Gambar & Video Tanpa Suara) -->
     <Transition
       enter-active-class="transition duration-200 ease-out"
       enter-from-class="opacity-0"
@@ -226,18 +222,19 @@ const closePreview = () => {
           class="w-auto h-auto max-w-[95vw] max-h-[80vh] object-contain rounded-xl border border-white/10 shadow-2xl"
         />
 
+        <!-- Video Preview Berjalan Otomatis Tanpa Suara (Silent Loop) -->
         <video
           v-else
           :src="activePreview.src"
-          controls
           autoplay
+          loop
+          muted
           playsinline
           class="w-auto h-auto max-w-[95vw] max-h-[80vh] object-contain rounded-xl border border-white/10 shadow-2xl"
-          @click.stop
         ></video>
 
         <p class="text-xs text-gray-400 mt-4 font-sans bg-white/10 px-3 py-1 rounded-full">
-          Ketuk area luar untuk menutup
+          Ketuk di mana saja untuk menutup
         </p>
       </div>
     </Transition>
