@@ -14,15 +14,15 @@ export const portfolioItems: PortfolioItem[] = [
     sociologicalContext:
       'Membeli souvenir pernikahan bukanlah belanja barang harian biasa. Pembeli biasanya adalah calon pengantin yang mudah cemas karena menyangkut hari pernikahan mereka, ketepatan waktu pengiriman barang, hasil sablon nama, serta biaya yang pas dengan anggaran. Balasan pesan yang lambat atau jawaban penjual yang kaku bisa langsung membuat calon pembeli pindah ke toko lain.',
     solutionExecution:
-      'Mengelola operasional harian toko Souvenir Pernikahan Kota Medan di Shopee dan Lazada secara terpadu. Mengedepankan cara berkomunikasi yang ramah, cepat tanggap, dan menenangkan kekhawatiran pembeli. Setiap kendala pengiriman dan keluhan diselesaikan dengan memberi jalan keluar yang adil, sehingga performa toko tetap memiliki reputasi tinggi dan penjualan terus berjalan stabil.',
+      'Mengelola operasional harian toko Souvenir Pernikahan Kota Medan di Shopee secara terpadu. Mengedepankan cara berkomunikasi yang ramah, cepat tanggap, dan menenangkan kekhawatiran pembeli. Setiap kendala pengiriman dan keluhan diselesaikan dengan memberi jalan keluar yang adil, sehingga performa toko tetap memiliki reputasi tinggi dan penjualan terus berjalan stabil.',
     stackOrSkills: [
       'Komunikasi Pelanggan',
       'Negosiasi Penjualan B2C',
       'Penanganan Komplain',
-      'Shopee & Lazada Seller Center',
+      'Shopee Seller Center',
       'Manajemen Pengiriman'
     ],
-    highlightMetric: 'Shopee & Lazada Active Operations'
+    highlightMetric: 'Shopee Active Operations'
   },
   {
     id: 'academic-consultant',
