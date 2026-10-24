@@ -10,7 +10,6 @@ export const portfolioItems: PortfolioItem[] = [
     galleryImages: [
       './assets/project-1-1.jpg',
       './assets/project-1-2.jpg',
-      './assets/project-1-3.jpg'
     ],
     sociologicalContext:
       'Membeli souvenir pernikahan bukanlah belanja barang harian biasa. Pembeli biasanya adalah calon pengantin yang mudah cemas karena menyangkut hari pernikahan mereka, ketepatan waktu pengiriman barang, hasil sablon nama, serta biaya yang pas dengan anggaran. Balasan pesan yang lambat atau jawaban penjual yang kaku bisa langsung membuat calon pembeli pindah ke toko lain.',
