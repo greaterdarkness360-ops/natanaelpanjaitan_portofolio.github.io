@@ -7,15 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        darkBg: '#121212',
-        darkCard: '#1A1A1A',
+        obsidian: '#121212',
+        charcoal: '#1A1A1A',
         skyAccent: '#38BDF8',
-        yellowHighlight: '#FEF08A',
-        doveGreen: '#86EFAC',
+        goldMuted: '#FDE68A',
       },
       fontFamily: {
-        serif: ['"Playfair Display"', 'serif'],
-        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        serif: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
     },
   },
