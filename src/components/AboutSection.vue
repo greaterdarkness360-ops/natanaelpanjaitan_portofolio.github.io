@@ -101,23 +101,26 @@ const closePreview = () => {
       <span class="text-xs uppercase tracking-widest text-yellow-200/80 font-sans font-medium">
         Kilas Balik & Fondasi Kerja
       </span>
-      <h2 class="text-3xl md:text-4xl font-serif text-white mt-1">
+      <h2 class="text-3xl md:text-4xl font-sans font-bold tracking-tight text-white mt-1">
         Tentang Diri & Realitas Lapangan
       </h2>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-      <!-- Kolom Kiri: Narasi Profil & Skill Tags -->
-      <div class="lg:col-span-5 space-y-6">
+      <!-- Kolom Kiri: Narasi Profil (3 Paragraf Seimbang) & Skill Tags -->
+      <div class="lg:col-span-5 space-y-5">
         <p class="text-gray-300 font-sans leading-relaxed text-sm md:text-base">
-          Berangkat dari latar belakang Sosiologi dan pemahaman interaksi manusia, saya memadukan pendekatan kualitatif dengan eksekusi teknis modern. Dari mendengarkan kebutuhan nyata masyarakat dan pelanggan hingga merancang alur perangkat lunak yang solutif.
+          Berangkat dari latar belakang Sosiologi dan pemahaman interaksi manusia, saya memadukan kepekaan riset kualitatif dengan ketangkasan eksekusi teknis modern. Bagi saya, teknologi dan strategi bisnis bukan sekadar baris kode atau target angka, melainkan sarana untuk merespons kebutuhan nyata manusia di lapangan.
+        </p>
+        <p class="text-gray-300 font-sans leading-relaxed text-sm md:text-base">
+          Pengalaman turun langsung ke pemukiman warga untuk menggali data, berkoordinasi dengan tim di medan terbuka, hingga menghadapi ratusan pesan pembeli di operasional toko daring membentuk cara kerja yang tenang, adaptif, dan solutif. Setiap keberatan pelanggan maupun dinamika kelompok selalu saya dekati dengan komunikasi yang menenangkan dan negosiasi yang adil.
         </p>
         <p class="text-gray-400 font-sans leading-relaxed text-sm">
-          Setiap proyek dibangun dengan empati sosial: mengurai persoalan nyata di lapangan, memetakan kebutuhan manusia di dalamnya, lalu mengeksekusinya secara disiplin lewat sistem digital yang cepat dan efisien.
+          Empati sosial tersebut kemudian diterjemahkan ke dalam rancangan sistem digital yang ringkas dan tepat guna. Ketika alur kerja manual terasa lambat atau aplikasi yang ada terlalu rumit bagi pengguna awam, saya merancang dan mengotomatisasi solusinya secara mandiri agar operasional harian berjalan lebih efisien, transparan, dan berdampak nyata.
         </p>
 
         <!-- Skill Tags -->
-        <div class="pt-2">
+        <div class="pt-3">
           <h3 class="text-xs uppercase tracking-wider text-gray-400 font-sans mb-3 font-semibold">
             Fokus Kompetensi
           </h3>
