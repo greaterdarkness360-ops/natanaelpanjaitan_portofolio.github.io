@@ -4,7 +4,7 @@ export const portfolioItems: PortfolioItem[] = [
   {
     id: 'ecommerce-ops',
     title: 'Operasional E-Commerce & Pelayanan Pelanggan',
-    subtitle: 'Pengelolaan Toko Daring Multikanal (Shopee dan Lazada)',
+    subtitle: 'Pengelolaan Toko Daring Multikanal (Shopee)',
     category: 'HUMAN_OPS',
     imagePlaceholder: './assets/project-1.jpg',
     galleryImages: [
